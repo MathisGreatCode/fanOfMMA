@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container text-center">
+    <div class="row">
+        <div class= "col-8">
+            {% for publication in publications %}
+            <div class="alert alert-dark fw-bold" role="alert">
+                {{publication.body}}
+                <small class= "text-muted fw-light">
+                    {{publication.created_time}} By {{publication.user.username}}
+                </small>
+                <br>
+            </div>
+            {% endfor %}
+        </div>
+        {% if user.is_authenticated %}
+        <div class= "col-4">
+            <form method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+
+                <button type="submit" class="btn btn-primary">Submit</button> 
+        {% endif %}
+            </form>
+{% endblock %}
