@@ -58,12 +58,22 @@ class Event(models.Model):
     date_time = models.DateTimeField()
     place = models.CharField(max_length=40)
 
-class Categroty(models.Model):
+    def __str__(self):
+        return self.name
+
+class Category(models.Model):
     name = models.CharField(max_length=20)
-    kg= models.IntegerField()
+    kg= models.DecimalField(decimal_places=1, max_digits=4)
     lbs =models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
 class Fight(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     fighter1 = models.ForeignKey(Fighter, on_delete=models.DO_NOTHING, related_name="fighter1")
     fighter2 = models.ForeignKey(Fighter, on_delete=models.DO_NOTHING, related_name="fighter2")
-    category = models.ForeignKey(Categroty, on_delete=models.DO_NOTHING)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return f"{self.fighter1} vs {self.fighter2} "

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center">
+<h1>MMA Events</h1>
+</div>
+<div class="row">
+    <div class="col-4">
+        <h2> Incoming events </h2>
+        <br><br>
+        <div class="accordion" id="accordionExample">
+            {% for event in upcoming_events %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    {{event.name}}
+                </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                <div class="accordion-body text-center">
+                    <strong>Fights</strong><br> It is shown by default, until the collapse plugin adds... <br>
+                    <strong>Date & Place</strong> <br> ...
+                </div>
+                </div>
+            </div>
+
+            {% endfor %}
+
+
+    </div>
+    </div>
+<div class="col"></div>
+    <div class="col-4">
+        <h2> Past events </h2>
+        <br><br>
+        <div class="accordion" id="accordionExample">
+            {% for event in past_events %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    {{event.name}}
+                </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <strong>Fights</strong><br> It is shown by default, until the collapse plugin adds... <br>
+                    <strong>Date & Place</strong> <br> ...
+                </div>
+                </div>
+</div>
+
+        {% endfor %}
+
+
+
+</div>
+
+</div>
+</div>
+{% endblock %}

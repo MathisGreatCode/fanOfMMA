@@ -7,7 +7,7 @@ urlpatterns = [
     path("organizations/", views.orgs, name="orgs"),
     path("organizations/<int:pk>", views.org),
     path("profile/<int:pk>", views.profile, name="profile"),
-    path("calendar/", views.calendar, name="calendar"),
+    path("events/", views.events, name="events"),
     path('profile_list/', views.profile_list, name="profile_list"),
     path("discussion/", views.discussion, name="discussion"),
     path("login/", views.login_v, name= "login"),

@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
-from .models import Profile, Organization, Publication
+from .models import Profile, Organization, Publication, Event
 from .forms import PubliForm, SignUpForm
 from django.contrib.auth import authenticate, login, logout
+from datetime import datetime
 # Create your views here.
 
 
@@ -24,8 +25,10 @@ def my_space(request):
     return render(request, 'space.html')
 
 
-def calendar(request):
-    return render(request, 'calendar.html')
+def events(request):
+    past_events = Event.objects.filter(date_time__lt = datetime.now()).order_by('date_time')
+    upcoming_events = Event.objects.filter(date_time__gte=datetime.now()).order_by('date_time')
+    return render(request, 'events.html', {'upcoming_events': upcoming_events, 'past_events': past_events})
 
 def profile_list(request):
     if request.user.is_authenticated:
