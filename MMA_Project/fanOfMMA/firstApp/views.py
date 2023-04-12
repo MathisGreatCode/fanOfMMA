@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
-from .models import Profile, Organization, Publication, Event
+from .models import Profile, Organization, Publication, Event, Fight
 from .forms import PubliForm, SignUpForm
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -26,9 +27,10 @@ def my_space(request):
 
 
 def events(request):
-    past_events = Event.objects.filter(date_time__lt = datetime.now()).order_by('date_time')
+    fights = Fight.objects.order_by('event')
+    past_events = Event.objects.filter(date_time__lt = datetime.now()).order_by('-date_time')
     upcoming_events = Event.objects.filter(date_time__gte=datetime.now()).order_by('date_time')
-    return render(request, 'events.html', {'upcoming_events': upcoming_events, 'past_events': past_events})
+    return render(request, 'events.html', {'upcoming_events': upcoming_events, 'past_events': past_events, 'fights':fights})
 
 def profile_list(request):
     if request.user.is_authenticated:
@@ -45,7 +47,7 @@ def org(request, pk):
 def profile(request, pk):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user_id= pk)
-        publications = Publication.objects.filter(user_id= pk)
+        publications = Publication.objects.filter(user_id= pk).order_by('-created_time')
         return render(request, 'profile.html', {'profile': profile, 'publications':publications})
     else: 
         messages.success(request, "You must be logged in.")
@@ -108,3 +110,22 @@ def register_v(request):
             messages.success(request, 'Registration failed')
             return render(request, 'register.html', {'form': form})
     return render(request, 'register.html', {'form': form})
+
+def profile_update(request):
+    if request.user.is_authenticated:
+        user = User.objects.filter(id = request.user.id).first()
+        form = SignUpForm(request.POST or None, instance = user)
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                login(request, user)
+                messages.success(request, ("Profile Updated Successfully"))
+                return redirect('home')
+            else:
+                messages.success(request, 'Failed Update')
+                return render(request, 'profile_update.html', {'form': form})
+        else:
+            return render(request, 'profile_update.html', {'form': form})
+    else:
+        messages.success(request, ("You need to log in"))
+        return redirect('home')

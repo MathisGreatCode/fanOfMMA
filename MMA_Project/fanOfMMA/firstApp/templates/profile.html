@@ -2,14 +2,31 @@
 
 {% block content %}
 
-{% if profile %}
+{% if profile %} 
 
     <div class="container text-center">
         <div class="row">
             <div class= "col-8">
-            <h1>{{profile.user.username}}'s profile</h1>
-            </div>
+                <div class="row">
+                    <h1>{{profile.user.username}}'s profile</h1>
+                    
+                </div>
+                <br>
+                {% for publication in publications %}
+                    <div class="row">
+                        <div class="alert alert-dark" role="alert">
+                            {{publication.body}}
+                            <small class= "text-muted">
+                                {{publication.created_time}} By {{publication.user.username}}
+                            </small>
+                        </div>
+                    </div>
+                    <br>
+                    {% endfor %}
 
+                    
+            </div>
+            
             <div class= "col-4">
                 <div class="card">
                     <div class="card-header">
@@ -29,20 +46,14 @@
                     <p class="card-text">{{profile.fav_org}}</p>
                     </div>
                 </div>
+                <br>
+                {% if request.user.id == profile.user.id %}
+                <a href="{% url 'profile_update' %}" class="btn btn-warning">Update profile</a>
+                {% endif %}
+
             </div>
         </div>
-        <br>
-        <div class= "col-8">
-        {% for publication in publications %}
-        <div class="alert alert-dark" role="alert">
-            {{publication.body}}
-            <small class= "text-muted">
-                {{publication.created_time}} By {{publication.user.username}}
-            </small>
-            <br>
-        </div>
-        {% endfor %}
-        
+    </div>
         
 
 {% endif %}

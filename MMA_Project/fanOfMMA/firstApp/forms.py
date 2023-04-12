@@ -16,7 +16,7 @@ class SignUpForm(UserCreationForm):
     favorite_org = forms.ModelChoiceField(queryset=Organization.objects.all(), to_field_name="name", widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Favorite Organization'}))
     favorite_fighter = forms.ModelChoiceField(queryset=Fighter.objects.all(), to_field_name="name", widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Favorite Fighter'}))
     class Meta:
-       model=User
+       model= User
        fields = ('username', 'email', 'password1', 'password2', 'favorite_org', 'favorite_fighter' )
 
     def __init__(self, *args, **kwargs):

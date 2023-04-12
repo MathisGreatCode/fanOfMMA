@@ -3,7 +3,7 @@
 {% block content %}
 <div class="text-center">
 <h1>MMA Events</h1>
-</div>
+
 <div class="row">
     <div class="col-4">
         <h2> Incoming events </h2>
@@ -18,8 +18,12 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                 <div class="accordion-body text-center">
-                    <strong>Fights</strong><br> It is shown by default, until the collapse plugin adds... <br>
-                    <strong>Date & Place</strong> <br> ...
+                    <strong>Fights</strong><br> {% for fight in fights %}
+                                                    {% if fight.event.name == event.name %}  
+                                                        {{fight}}<br>
+                                                    {% endif %}
+                                                {% endfor %}
+                    <strong>Date & Place</strong> <br> {{event.date_time}} <br> {{event.place}}
                 </div>
                 </div>
             </div>
@@ -43,8 +47,12 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <strong>Fights</strong><br> It is shown by default, until the collapse plugin adds... <br>
-                    <strong>Date & Place</strong> <br> ...
+                    <strong>Fights</strong><br> {% for fight in fights %}
+                                                    {% if fight.event.name == event.name %}  
+                                                        {{fight}}<br>
+                                                    {% endif %}
+                                                {% endfor %}
+                    <strong>Date & Place</strong> <br> {{event.date_time}} <br> {{event.place}}
                 </div>
                 </div>
 </div>
@@ -55,6 +63,7 @@
 
 </div>
 
+</div>
 </div>
 </div>
 {% endblock %}
