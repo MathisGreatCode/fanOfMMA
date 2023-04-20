@@ -20,7 +20,8 @@
                 <div class="accordion-body text-center">
                     <strong>Fights</strong><br> {% for fight in fights %}
                                                     {% if fight.event.name == event.name %}  
-                                                        {{fight}}<br>
+                                                        {{fight}} <br>
+                                                        
                                                     {% endif %}
                                                 {% endfor %}
                     <strong>Date & Place</strong> <br> {{event.date_time}} <br> {{event.place}}
@@ -49,7 +50,7 @@
                 <div class="accordion-body">
                     <strong>Fights</strong><br> {% for fight in fights %}
                                                     {% if fight.event.name == event.name %}  
-                                                        {{fight}}<br>
+                                                    {% if fight.result == 1 %} (w) {% endif %} {{fight}} {% if fight.result == 2%} (w) {% endif %}<br>
                                                     {% endif %}
                                                 {% endfor %}
                     <strong>Date & Place</strong> <br> {{event.date_time}} <br> {{event.place}}

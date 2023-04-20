@@ -74,5 +74,10 @@ class Fight(models.Model):
     fighter1 = models.ForeignKey(Fighter, on_delete=models.DO_NOTHING, related_name="fighter1")
     fighter2 = models.ForeignKey(Fighter, on_delete=models.DO_NOTHING, related_name="fighter2")
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    result = models.IntegerField(default = 0)
     def __str__(self):
         return f"{self.fighter1} vs {self.fighter2} "
+
+class Prediction(models.model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
