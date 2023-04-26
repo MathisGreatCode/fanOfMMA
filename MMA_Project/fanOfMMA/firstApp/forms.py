@@ -1,7 +1,8 @@
 from django import forms
-from .models import Publication, Profile, Fighter, Organization
+from .models import Publication, Profile, Fighter, Organization, Prediction,  Fight, Event
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from datetime import datetime
 
 class PubliForm(forms.ModelForm):
     body = forms.CharField(required=True,
@@ -36,3 +37,10 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
         self.fields['password2'].label = ''
         self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
+
+class PredictionForm(forms.ModelForm):
+    fight = forms.ModelChoiceField(queryset=Fight.objects.filter(event__date_time__gte=datetime.now()), widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Choose a fight'}))
+    winner = forms.ChoiceField(choices=((1, 'Fighter 1'), (2, 'Fighter 2')), widget=forms.RadioSelect)
+    class Meta:
+        model = Prediction
+        fields = ['fight', 'winner']

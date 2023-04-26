@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
-from .models import Profile, Organization, Publication, Event, Fight
-from .forms import PubliForm, SignUpForm
+from .models import Profile, Organization, Publication, Prediction, Event, Fight
+from .forms import PubliForm, SignUpForm, PredictionForm
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -48,7 +48,9 @@ def profile(request, pk):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user_id= pk)
         publications = Publication.objects.filter(user_id= pk).order_by('-created_time')
-        return render(request, 'profile.html', {'profile': profile, 'publications':publications})
+        predictions = Prediction.objects.filter(user_id= pk)
+        fights = Fight.objects.all()
+        return render(request, 'profile.html', {'profile': profile, 'publications':publications, 'predictions':predictions, 'fights':fights})
     else: 
         messages.success(request, "You must be logged in.")
         return redirect('home')
@@ -129,3 +131,21 @@ def profile_update(request):
     else:
         messages.success(request, ("You need to log in"))
         return redirect('home')
+
+def predict(request):
+    if request.user.is_authenticated:
+        form = PredictionForm(request.POST or None)
+        if form.is_valid():
+            prediction = form.save(commit=False)
+            prediction.user = request.user
+            try:
+                prediction.save()
+                messages.success(request, ("Prediction saved !"))
+                return redirect('predict')
+            except:
+                messages.success(request, ("You already predicted this fight"))
+                return redirect('predict')
+            
+    
+        return render(request, 'predict.html', {'form': form})
+

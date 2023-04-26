@@ -12,6 +12,10 @@
                     
                 </div>
                 <br>
+                <div class="row text-start">
+                    <h4>My Publications :</h3>
+                </div>
+                <br>
                 {% for publication in publications %}
                     <div class="row">
                         <div class="alert alert-dark" role="alert">
@@ -23,7 +27,24 @@
                     </div>
                     <br>
                     {% endfor %}
+                <div class="row text-start">
+                    <h4>My Predictions :</h3>
+                </div>
+                <br>
+                {% for prediction in predictions %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{prediction.fight}}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{prediction.fight.event}}</h6>
+                        {% if prediction.winner == 1 %}
+                        <p class="card-text">You predicted {{prediction.fight.fighter1}} as the winner of the fight </p>
+                        {% else%}
+                        <p class="card-text">You predicted {{prediction.fight.fighter2}} as the winner of the fight</p>
+                        {% endif %}
 
+                    </div>
+                  </div>                
+                {% endfor %}
                     
             </div>
             

@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from datetime import datetime
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Fighter(models.Model):
@@ -78,6 +79,12 @@ class Fight(models.Model):
     def __str__(self):
         return f"{self.fighter1} vs {self.fighter2} "
 
-class Prediction(models.model):
+
+class Prediction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    fight = models.ForeignKey(Fight, on_delete=models.CASCADE)
+    winner = models.IntegerField(choices=((1, 'Fighter 1'), (2, 'Fighter 2')))
+
+    class Meta:
+        unique_together = ('user', 'fight')
     
