@@ -148,4 +148,6 @@ def predict(request):
             
     
         return render(request, 'predict.html', {'form': form})
-
+    else:
+        messages.success(request, ("You must be logged in."))
+        return redirect('home')

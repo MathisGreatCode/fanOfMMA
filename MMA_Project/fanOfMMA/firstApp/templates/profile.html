@@ -17,7 +17,7 @@
                 </div>
                 <br>
                 {% for publication in publications %}
-                    <div class="card centered-element" style="width: 60rem;">
+                    <div class="card " style="width: 60rem;">
                     <div class="card-body">
                         <h5 class="card-title"> {{publication.body}}</h5>
                             <a href="{% url 'events' %}"> <h6 class="card-subtitle mb-2 text-body-secondary"> By {{publication.user.username}}</h6> </a>

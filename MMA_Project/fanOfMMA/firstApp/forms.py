@@ -6,7 +6,7 @@ from datetime import datetime
 
 class PubliForm(forms.ModelForm):
     body = forms.CharField(required=True,
-                           widget=forms.widgets.Textarea(attrs={"placeholder": "Share your thoughts !", "class":"form-control"}), 
+                           widget=forms.widgets.Textarea(attrs={"placeholder": "Share your thoughts !", "class":"form-control", "style":"background-color: #FFF8CD"}), 
                            label="",)
     class Meta:
         model = Publication

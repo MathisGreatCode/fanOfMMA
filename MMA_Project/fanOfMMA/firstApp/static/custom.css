@@ -13,4 +13,11 @@
     padding: 20px;
     text-align: center;
     }
-      
+    
+h2 {
+    color: #FFE05D
+}
+.dark-header {
+  background-color: #343a40; /* Dark color for the header */
+  color: #fff; /* Light color for the text */
+}
