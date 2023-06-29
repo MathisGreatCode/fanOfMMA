@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Fighter, Organization, Profile, Publication, Event, Fight, Category
+from .models import Fighter, Organization, Profile,  Event, Fight, Category
 from django.contrib.auth.models import User
 
 # Register your models here.
@@ -19,7 +19,6 @@ class UserAdmin(admin.ModelAdmin):
 #unregister + register to save the changes
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(Publication)
 admin.site.register(Event)
 admin.site.register(Fight)
 admin.site.register(Category)

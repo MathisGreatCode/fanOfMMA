@@ -1,16 +1,10 @@
 from django import forms
-from .models import Publication, Profile, Fighter, Organization, Prediction,  Fight, Event
+from .models import  Profile, Fighter, Organization, Prediction,  Fight, Event
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from datetime import datetime
 
-class PubliForm(forms.ModelForm):
-    body = forms.CharField(required=True,
-                           widget=forms.widgets.Textarea(attrs={"placeholder": "Share your thoughts !", "class":"form-control", "style":"background-color: #FFF8CD"}), 
-                           label="",)
-    class Meta:
-        model = Publication
-        exclude = ("user",)
+
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
@@ -39,7 +33,7 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
 
 class PredictionForm(forms.ModelForm):
-    fight = forms.ModelChoiceField(queryset=Fight.objects.filter(event__date_time__gte=datetime.now()), widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Choose a fight'}))
+    fight = forms.ModelChoiceField(queryset=Fight.objects.filter(event__date_time__gte=datetime.now()), widget=forms.Select(attrs={'class':'form-control'}))
     winner = forms.ChoiceField(choices=((1, 'Fighter 1'), (2, 'Fighter 2')), widget=forms.RadioSelect)
     class Meta:
         model = Prediction

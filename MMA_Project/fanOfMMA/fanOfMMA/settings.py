@@ -56,7 +56,7 @@ ROOT_URLCONF = "fanOfMMA.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [ 'MMA_Project/fanOfMMA/firstApp/templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -120,6 +120,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+STATIC_ROOT = '/MMA_Project/fanOfMMA/firstApp/static/'
 
 STATIC_URL = "static/"
 

@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Fighter(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length= 100)
     nickname = models.CharField(max_length=50, blank= True)
     win = models.IntegerField(default=0)
     loss = models.IntegerField(default=0)
@@ -19,7 +19,7 @@ class Fighter(models.Model):
 class Organization(models.Model):
     name = models.CharField(max_length=20)
     country = models.CharField(max_length=50)
-    description  = models.CharField(max_length=600)
+    description  = models.CharField(max_length=2500)
 
     def __str__(self):
         return self.name
@@ -33,15 +33,15 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
-class Publication(models.Model):
-    user = models.ForeignKey(User, on_delete =models.DO_NOTHING)
-    body = models.CharField(max_length=900)
-    created_time = models.DateTimeField(auto_now_add=True)
+#class Publication(models.Model):
+ #   user = models.ForeignKey(User, on_delete =models.DO_NOTHING)
+  #  body = models.CharField(max_length=900)
+   # created_time = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-          return(f'{self.user.username}  '
-                 f'{self.created_time:%d.%m.%Y %H:%M}  '
-                 f'{self.body}')
+    #def __str__(self):
+     #     return(f'{self.user.username}  '
+      #           f'{self.created_time:%d.%m.%Y %H:%M}  '
+       #          f'{self.body}')
 
     
     
@@ -58,7 +58,7 @@ class Event(models.Model):
     orga = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
     date_time = models.DateTimeField()
     place = models.CharField(max_length=40)
-
+   
     def __str__(self):
         return self.name
 
@@ -72,14 +72,31 @@ class Category(models.Model):
 
 class Fight(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    main_event = models.BooleanField(default=False)
+    co_main = models.BooleanField(default=False)
     fighter1 = models.ForeignKey(Fighter, on_delete=models.DO_NOTHING, related_name="fighter1")
     fighter2 = models.ForeignKey(Fighter, on_delete=models.DO_NOTHING, related_name="fighter2")
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     result = models.IntegerField(default = 0)
+
     def __str__(self):
-        return f"{self.fighter1} vs {self.fighter2} "
+        name1 = self.fighter1.name 
+        name2 = self.fighter2.name
+        if self.fighter1.nickname:
+            name1 = name1.replace(' ', f" '{self.fighter1.nickname}' ")
+        if self.fighter2.nickname:
+            name2 = name2.replace(' ', f" '{self.fighter2.nickname}' ")
+        if self.result == 1:
+            name1 += ' (w) '
+        if self.result == 2:
+            name2 += ' (w) '
+
+        return f"{name1} vs {name2} "
+    
 
 
+
+   
 class Prediction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     fight = models.ForeignKey(Fight, on_delete=models.CASCADE)

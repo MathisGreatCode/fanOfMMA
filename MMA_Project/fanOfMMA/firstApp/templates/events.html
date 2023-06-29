@@ -1,70 +1,138 @@
-{% extends 'base.html' %}
+{% extends 'base.html'%}
 
 {% block content %}
-<div class="text-center">
-<h1>MMA Events</h1>
 
-<div class="row">
-    <div class="col-4">
-        <h2> Incoming events </h2>
-        <br><br>
-        <div class="accordion" id="accordionExample">
-            {% for event in upcoming_events %}
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    {{event.name}}
-                </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
-                    <strong>Fights</strong><br> {% for fight in fights %}
-                                                    {% if fight.event.name == event.name %}  
-                                                        {{fight}} <br>
-                                                        
-                                                    {% endif %}
-                                                {% endfor %}
-                    <strong>Date & Place</strong> <br> {{event.date_time}} <br> {{event.place}}
+  
+  
+
+
+  <!-- listing -->
+  <section class="py-15 py-xl-20">
+    <div class="container mt-5 mt-xl-10">
+      <div class="row justify-content-center mb-5 mb-xl-10">
+        <div class="col-lg-8 text-center">
+          <h1 class="fw-light mb-3"><span class="fw-bold">Don't miss</span> the best of MMA.</h1>
+          <button class="btn btn-filter rounded-pill " data-filter=".filter-upcoming" data-target="#grid1">Upcoming events</button>
+          <button class="btn btn-filter rounded-pill" data-filter=".filter-past" data-target="#grid1">Past events  </button>
+          
+        </div>
+      </div>
+
+      <div class="row g-1" id="grid1" data-isotope>
+        {% for event in upcoming_events %}
+        <div class="col-12 filter-upcoming">
+          <a href="{% url 'event' event.id %}" class="card bg-white card-hover-border">
+            <div class="card-body">
+              <div class="row align-items-center g-2 g-md-4 text-center text-md-start">
+                <div class="col-md-2 col-lg-3">
+                  {% if event.orga.name == "UFC" %}
+                      <img src="../static/images/logo/UFC-Logo-2001.jpg" alt="Logo" class="logo">
+                    {% elif event.orga.name == "PFL" %}
+                      <img src="../static/images/logo/PFL logo.jpg" alt="Logo" class="logo">
+                    {% elif event.orga.name == "Bellator" %}
+                      <img src="../static/images/logo/bellator-logo.png" alt="Logo" class="logo">
+                    {% elif event.orga.name == "One Championship" %}
+                      <img src="../static/images/logo/ONE_logo.png" alt="Logo" class="logo">
+                    {% endif %}
                 </div>
+                <div class="col-md-6">
+                  <p class="fs-lg mb-0">{{event.name}}</p>
+                  <ul class="list-inline list-inline-separated text-muted">
+                    <li class="list-inline-item">{{event.place}}</li>
+                  </ul>
                 </div>
+                <div class="col-md-3 text-lg-end">
+                  <span>{{event.date_time}}</span>
+                </div>
+              </div>
             </div>
+          </a>
+        </div>
+        {% endfor %}
 
-            {% endfor %}
-
-
-    </div>
-    </div>
-<div class="col"></div>
-    <div class="col-4">
-        <h2> Past events </h2>
-        <br><br>
-        <div class="accordion" id="accordionExample">
-            {% for event in past_events %}
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    {{event.name}}
-                </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>Fights</strong><br> {% for fight in fights %}
-                                                    {% if fight.event.name == event.name %}  
-                                                    {% if fight.result == 1 %} (w) {% endif %} {{fight}} {% if fight.result == 2%} (w) {% endif %}<br>
-                                                    {% endif %}
-                                                {% endfor %}
-                    <strong>Date & Place</strong> <br> {{event.date_time}} <br> {{event.place}}
+        {% for event in past_events %}
+        <div class="col-12 filter-past">
+            <a href="{% url 'event' event.id %}" class="card bg-white card-hover-border">
+              <div class="card-body">
+                <div class="row align-items-center g-2 g-md-4 text-center text-md-start">
+                  <div class="col-md-2 col-lg-3">
+                    {% if event.orga.name == "UFC" %}
+                      <img src="../static/images/logo/UFC-Logo-2001.jpg" alt="Logo" class="logo">
+                    {% elif event.orga.name == "PFL" %}
+                      <img src="../static/images/logo/PFL logo.jpg" alt="Logo" class="logo">
+                    {% elif event.orga.name == "Bellator" %}
+                      <img src="/static/images/logo/bellator-logo.png" alt="Logo" class="logo">
+                    {% elif event.orga.name == "One Championship" %}
+                      <img src="../static/images/logo/ONE_logo.png" alt="Logo" class="logo" >
+                    {% endif %}
+                  </div>
+                  <div class="col-md-6">
+                    <p class="fs-lg mb-0">{{event.name}}</p>
+                    <ul class="list-inline list-inline-separated text-muted">
+                      <li class="list-inline-item">{{event.place}}</li>
+                    </ul>
+                  </div>
+                  <div class="col-md-3 text-lg-end">
+                    <span>{{event.date_time}}</span>
+                  </div>
                 </div>
-                </div>
-</div>
-
+              </div>
+            </a>
+          </div>
         {% endfor %}
 
 
+        
+      </div>
 
-</div>
+    </div>
+  </section>
 
-</div>
-</div>
-</div>
+
+  <!-- footer -->
+  <footer class="py-15 py-xl-20 bg-black inverted">
+    <div class="container">
+      <div class="row g-4 g-lg-5 mb-10">
+        <div class="col-md-3 text-center text-md-start">
+          <a href="./index.html" class="navbar-brand"><img src="./assets/images/logo/logo-light.svg" alt="Logo"></a>
+        </div>
+        <div class="col-md-4 col-lg-5 text-center text-md-start">
+          <ul class="list-unstyled">
+            <li class="mb-1"><a href="" class="text-reset text-primary-hover">documentation</a></li>
+            <li class="mb-1"><a href="" class="text-reset text-primary-hover">components</a></li>
+            <li class="mb-1"><a href="" class="text-reset text-primary-hover">blocks</a></li>
+            <li class="mb-1"><a href="" class="text-reset text-primary-hover">changelog</a></li>
+            <li><a href="" class="text-reset text-primary-hover">roadmap</a></li>
+          </ul>
+        </div>
+        <div class="col-md-5 col-lg-4">
+          <div class="grouped-inputs border p-1 rounded-pill">
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control rounded-pill px-3" aria-label="Text input"
+                  placeholder="Your email">
+              </div>
+              <div class="col-auto">
+                <a href="" class="btn btn-primary btn-icon rounded-circle"><i class="bi bi-arrow-return-left"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center g-1 g-lg-6 text-muted">
+        <div class="col-md-6 col-lg-5 order-lg-2 text-center text-md-start">
+          <ul class="list-inline small">
+            <li class="list-inline-item"><a href="" class="text-reset text-primary-hover">facebook</a></li>
+            <li class="list-inline-item ms-1"><a href="" class="text-reset text-primary-hover">twitter</a></li>
+            <li class="list-inline-item ms-1"><a href="" class="text-reset text-primary-hover">linkedin</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-lg-4 text-center text-md-end order-lg-3">
+          <span class="small">5th Avenue, New York USA 10255</span>
+        </div>
+        <div class="col-lg-3 order-lg-1 text-center text-md-start">
+          <p class="small">Copyrights © 2021</p>
+        </div>
+      </div>
+    </div>
 {% endblock %}

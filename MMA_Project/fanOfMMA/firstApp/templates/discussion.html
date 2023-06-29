@@ -1,36 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-<div class="container text-center">
-    <div class="row">
-        <div class= "col-8">
-            {% for publication in publications %}
-            <div class="card" >
-                <div class="card-header text-center" style="background-color: #343a40; color: #fff;">
-                    By {{publication.user.username}} at {{publication.created_time}}
-                </div>
-                <div class="card-body " style="background-color: #FFF8CD;">
-                  <h5 class="card-title"> {{publication.body}}</h5>
-                  
-                </div>
-              </div>
-              <br>
-            {% endfor %}
-        </div>
-        {% if user.is_authenticated %}
-        <div class= "col-4">
-            <form method="POST" >
-                {% csrf_token %}
-                {{form.as_p}}
-
-                <button type="submit" class="btn btn-outline-dark" style="background-color:#FFE05D" ; >Submit</button> 
-            </form>
-        </div>
-        {% endif %}
-    </div>
-</div>
 
 {% endblock %}
-
-

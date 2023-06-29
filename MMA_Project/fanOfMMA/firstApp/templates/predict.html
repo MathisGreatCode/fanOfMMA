@@ -1,12 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
 
-    <button type="submit" class="btn btn-primary">Submit</button> 
-</form>
+<section class="py-15 py-xl-20">
+    <div class="container">
+      <div class="row justify-content-center mb-10 ">
+        <div class="col-lg-10 text-center">
+          <h2 class="fw-bold"><span class="d-lg-block">You are the seer of MMA.</span> Predict the fights.</h2>
+        </div>
+      </div>
+    {% if request.user.is_authenticated %}
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card bg-opaque-white">
+          <div class="card-body bg-white">
+            <form class="row g-1 g-lg-3" method="POST">
+              {% csrf_token %}
+              <div class="col-md-12">
+                <h3 class="fs-4">Choose a fight:</h3>
+                {{form.fight}}
+              </div>
+              <div class="col-md-8">
+                <h3 class="fs-4">Winner:</h3>
+                {{form.winner}}
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button> 
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% else %}
+
+    {% endif %}
+    </div>
+  </section>
 
 
 {% endblock %}

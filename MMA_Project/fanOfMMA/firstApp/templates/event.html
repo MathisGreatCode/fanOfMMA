@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="py-15 py-xl-20">
+    <div class="container mt-5 mt-xl-10">
+      <div class="row mb-5">
+        <div class="col-lg-7">
+          <h1 class="display-1">{{event.name}}</h1>
+        </div>
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-lg-7 mb-5 mb-lg-0">
+          <ul class="list-group list-group-minimal">
+            {% for fight in fights %}
+              {% if fight.main_event == True %}
+                <li class="list-group-item d-flex align-items-center"><i class="bi bi-trophy fs-5 me-2 text-primary"></i>
+                  Main event - {{fight}}- {{fight.category}}</li>
+                {% endif %}
+              {% endfor %}
+            {% for fight in fights %}
+              {% if fight.co_main == True %}
+                <li class="list-group-item d-flex align-items-center"><i class="bi bi-lightning-charge fs-5 me-2 text-primary"></i>
+                  Co-main event - {{fight}} - {{fight.category}}</li>
+              {% endif %}
+            {% endfor %}
+            {% for fight in fights %}
+              {% if fight.main_event == False and fight.co_main == False %}
+                <li class="list-group-item d-flex align-items-center"><i class="bi bi-eye fs-5 me-2 text-primary"></i>
+                   {{fight}} - {{fight.category}}</li>
+
+              {% endif %}
+            {% endfor %}
+            
+          </ul>
+
+        </div>
+        <div class="col-lg-5 col-xl-4">
+          <div class="card border mb-2">
+            <div class="card-body">
+              <ul class="list-group list-group-minimal">
+                <li class="list-group-item d-flex align-items-center">
+                  <i class="bi bi-geo fs-3 text-primary me-3"></i>
+                  <div>
+                    <span class="eyebrow d-block text-muted">Location</span>
+                    {{event.place}}
+                  </div>
+                </li>
+                <li class="list-group-item d-flex align-items-center mt-3">
+                  <i class="bi bi-clock-history fs-3 text-primary me-3"></i>
+                  <div>
+                    <span class="eyebrow d-block text-muted">Date & Time</span>
+                    {{event.date_time}}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+         
+
+    </div>
+
+  </section>
+  
+
+
+{% endblock %}
