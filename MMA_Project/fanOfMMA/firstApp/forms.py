@@ -8,8 +8,8 @@ from datetime import datetime
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
-    favorite_org = forms.ModelChoiceField(queryset=Organization.objects.all(), to_field_name="name", widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Favorite Organization'}))
-    favorite_fighter = forms.ModelChoiceField(queryset=Fighter.objects.all(), to_field_name="name", widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Favorite Fighter'}))
+    favorite_org = forms.ModelChoiceField(queryset=Organization.objects.order_by('name'), to_field_name="name", widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Favorite Organization'}))
+    favorite_fighter = forms.ModelChoiceField(queryset=Fighter.objects.order_by('name'), to_field_name="name", widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Favorite Fighter'}))
     class Meta:
        model= User
        fields = ('username', 'email', 'password1', 'password2', 'favorite_org', 'favorite_fighter' )
@@ -18,7 +18,7 @@ class SignUpForm(UserCreationForm):
         super(SignUpForm, self).__init__(*args, **kwargs)
 
         self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['username'].widget.attrs['placeholder'] = 'User Name'
+        self.fields['username'].widget.attrs['placeholder'] = 'Username'
         self.fields['username'].label = ''
         self.fields['username'].help_text = '<span class="form-text text-muted"><small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></span>'
 

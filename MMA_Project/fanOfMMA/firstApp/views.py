@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
-from .models import Profile, Organization, Prediction, Event, Fight
+from .models import Profile, Organization, Prediction, Event, Fight, Fighter, Category
 from .forms import  SignUpForm, PredictionForm
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
@@ -40,7 +40,7 @@ def event(request, pk):
 def profile_list(request):
     if request.user.is_authenticated:
         profiles = Profile.objects.exclude(user=request.user)
-        return render(request, 'profile_list.html', {'profiles': profiles})
+        return render(request, 'profiles.html', {'profiles': profiles})
     else:
         messages.success(request, "You must be logged in.")
         return redirect('home')
@@ -54,6 +54,8 @@ def profile(request, pk):
         profile = Profile.objects.get(user_id= pk)
         predictions = Prediction.objects.filter(user_id= pk)
         fights = Fight.objects.all()
+        past_events = Event.objects.filter(date_time__lt = datetime.now()).order_by('-date_time')
+        upcoming_events = Event.objects.filter(date_time__gte=datetime.now()).order_by('date_time')
         total = 0
         accruate = 0
         pending = 0
@@ -64,12 +66,14 @@ def profile(request, pk):
                     accruate += 1
             else:
                 pending += 1
-        percentage = round((accruate/total)*100,2)
-
+        try:
+            percentage = round((accruate/total)*100,2)
+        except ZeroDivisionError:
+            percentage = '0'   
 
 
         
-        return render(request, 'profile.html', {'profile': profile,'percentage':percentage,'total':total,'pending':pending,'predictions':predictions, 'fights':fights})
+        return render(request, 'profile.html', {'profile': profile,'percentage':percentage,'total':total,'pending':pending,'predictions':predictions, 'upcoming_events': upcoming_events, 'past_events': past_events,'fights':fights})
     else: 
         messages.success(request, "You must be logged in.")
         return redirect('home')
@@ -163,3 +167,8 @@ def predict(request):
             messages.success(request, ("You already predicted this fight"))
     
     return render(request, 'predict.html', {'form': form})
+
+def fighters(request):
+    fighters = Fighter.objects.order_by('category', 'win')
+    categories = Category.objects.all()
+    return render(request, 'fighters.html', {'fighters':fighters, 'categories':categories} )

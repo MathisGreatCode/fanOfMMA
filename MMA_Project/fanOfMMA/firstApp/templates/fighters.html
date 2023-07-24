@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for category in categories %}
+<section class="py-15 py-xl-20 bg-black inverted">
+    <div class="container">
+      <div class="row align-items-end mb-5">
+        <div class="col-lg-6">
+          <h2 class="fw-bold">{{category}}</h2>
+        </div>
+        <div class="col-lg-6 text-lg-end">
+            {for fighter in fighters}
+          <a href="" class="action underline text-white">{{fighter}} <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="row g-2 g-lg-5">
+        <div class="col-md-6 col-lg-4" data-aos="fade-up">
+          <a href="" class="card card-hover-gradient inverted equal-1-1 equal-lg-3-4">
+            <div class="card-wrap">
+              <div class="card-footer text-shadow mt-auto">
+                <h5 class="mb-0">John Doe</h5>
+                <span class="text-muted">Senior Product Designer</span>
+              </div>
+            </div>
+            <figure class="background" style="background-image: url('./assets/images/users/user-1.jpg')">
+            </figure>
+          </a>          </div>
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="150">
+          <a href="" class="card card-hover-gradient inverted equal-1-1 equal-lg-3-4">
+            <div class="card-wrap">
+              <div class="card-footer text-shadow mt-auto">
+                <h5 class="mb-0">John Doe</h5>
+                <span class="text-muted">Senior Product Designer</span>
+              </div>
+            </div>
+            <figure class="background" style="background-image: url('./assets/images/users/user-2.jpg')">
+            </figure>
+          </a>          </div>
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+          <a href="" class="card card-hover-gradient inverted equal-1-1 equal-lg-3-4">
+            <div class="card-wrap">
+              <div class="card-footer text-shadow mt-auto">
+                <h5 class="mb-0">John Doe</h5>
+                <span class="text-muted">Senior Product Designer</span>
+              </div>
+            </div>
+            <figure class="background" style="background-image: url('./assets/images/users/user-3.jpg')">
+            </figure>
+          </a>          </div>
+        <div class="d-none d-md-block d-lg-none col-md-6 col-lg-4">
+          <a href="" class="card card-hover-gradient inverted equal-1-1 equal-lg-3-4">
+            <div class="card-wrap">
+              <div class="card-footer text-shadow mt-auto">
+                <h5 class="mb-0">John Doe</h5>
+                <span class="text-muted">Senior Product Designer</span>
+              </div>
+            </div>
+            <figure class="background" style="background-image: url('./assets/images/users/user-4.jpg')">
+            </figure>
+          </a>          </div>
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+{% endblock %}

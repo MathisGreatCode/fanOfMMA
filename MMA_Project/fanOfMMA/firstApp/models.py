@@ -6,15 +6,14 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 
 # Create your models here.
-class Fighter(models.Model):
-    name = models.CharField(max_length= 100)
-    nickname = models.CharField(max_length=50, blank= True)
-    win = models.IntegerField(default=0)
-    loss = models.IntegerField(default=0)
+
+class Category(models.Model):
+    name = models.CharField(max_length=20)
+    kg= models.DecimalField(decimal_places=1, max_digits=4)
+    lbs =models.IntegerField()
 
     def __str__(self):
         return self.name
-
 
 class Organization(models.Model):
     name = models.CharField(max_length=20)
@@ -24,11 +23,26 @@ class Organization(models.Model):
     def __str__(self):
         return self.name
 
+class Fighter(models.Model):
+    name = models.CharField(max_length= 100)
+    nickname = models.CharField(max_length=50, blank= True)
+    orga = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, null=True)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True)
+    win = models.IntegerField(default=0)
+    loss = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     fav_org = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
     fav_fighter = models.ForeignKey(Fighter, on_delete=models.DO_NOTHING, null = True)
     last_update = models.DateTimeField(User, auto_now=True)
+    profile_image = models.ImageField(null=True, blank=True, upload_to= "profile_pics/")
 
     def __str__(self):
         return self.user.username
@@ -62,13 +76,7 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
-class Category(models.Model):
-    name = models.CharField(max_length=20)
-    kg= models.DecimalField(decimal_places=1, max_digits=4)
-    lbs =models.IntegerField()
 
-    def __str__(self):
-        return self.name
 
 class Fight(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)

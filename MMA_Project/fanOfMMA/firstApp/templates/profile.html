@@ -1,15 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="py-15 py-xl-20">
-    <div class="container">
-      <div class="row justify-content-center mb-6">
-        <div class="col-lg-8 text-center">
-          <h2 class="fw-bold"><span class="d-lg-block">You predictions.</span> How accruate are you ?</h2>
+
+<section class="py-15 py-xl-20 ">
+  <div class="container mt-10">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-xl-8 text-center">
+        <span >
+          <img src="{{profile.profile_image.url}}" width="300px"  height="300px" class="rounded-circle">
+        </span>
+        <h1>
+        {{request.user.username}}</h1>
+  
+        <div class="row mt-6">
+          <div class="col-md-4">
+            <small class="eyebrow text-muted mb-1">Favorite organization</small>
+            <h4 class="fs-5">{{profile.fav_org}}</h4>
+          </div>
+          <div class="col-md-4">
+            <small class="eyebrow text-muted mb-1">Favorite Fighter</small>
+            <h4 class="fs-5">{{profile.fav_fighter}}</h4>
+          </div>
+          <div class="col-md-4">
+            <small class="eyebrow text-muted mb-1">Level</small>
+            <h4 class="fs-5">Beginer</h4>
+          </div>
         </div>
       </div>
-      <div class="row justify-content-center">
-        <div class="col-lg-10" data-aos="fade-up">
+    </div>
+  </div>
+</section>
+
+
+<section class="py-15 py-xl-20 ">
+    <div class="container ">
+      <div class="row justify-content-center mb-6 ">
+        <div class="col-lg-8 text-center ">
+          <h2 class="fw-bold"><span class="d-lg-block">Your predictions.</span> How accruate are you ?</h2>
+        </div>
+      </div>
+      <div class="row justify-content-center ">
+        <div class="col-lg-10 bg-white" data-aos="fade-up">
           <div class="row separated">
             <div class="col-lg-7 p-5">
               <div class="d-flex align-items-end">
@@ -40,4 +71,84 @@
       </div>
     </div>
   </section>
-{% endblock %}
+
+  <section class="py-15 py-xl-20">
+    <div class="container mt-1">
+      <div class="row row justify-content-center mb-6">
+      <div class="col-lg-6">
+        <div class="card border bg-white">
+          <div class="card-body">
+            <h3 class="fs-4 my-3">Predictions Results </h3>
+            {% for prediction in predictions %}
+            {% if prediction.fight.event in past_events  %}
+            <div class="accordion" id="accordion-3">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-3-1">
+                  <button class="accordion-button lead collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse-3-1" aria-expanded="false" aria-controls="collapse-3-1">
+                    {{prediction.fight}}
+                  </button>
+                </h2>
+                <div id="collapse-3-1" class="accordion-collapse collapse" aria-labelledby="heading-3-1"
+                  data-bs-parent="#accordion-3">
+                  <div class="accordion-body">
+                    {% if prediction.winner == 1 %}
+                       <p>Prediction: {{prediction.fight.fighter1}} </p>
+                      {% elif prediction.winner == 2 %}
+                        <p>Prediction: {{prediction.fight.fighter2}}</p>
+                      {% endif %}
+                    {% if prediction.winner == prediction.fight.result %}
+                    <span class="badge bg-success">Success</span>
+                    {% else %}
+                    <span class="badge bg-danger">Missed</span>
+                    {% endif  %}
+
+                  </div>
+                </div>
+              </div>      
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card border">
+          <div class="card-body bg-white">
+            <h3 class="fs-4 my-3">Incoming Predictions </h3>
+            {% for prediction in predictions %}
+            {% if prediction.fight.event in upcoming_events  %}
+            <div class="accordion" id="accordion-3">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-3-1">
+                  <button class="accordion-button lead collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse-3-1" aria-expanded="false" aria-controls="collapse-3-1">
+
+                    {{prediction.fight}}                  </button>
+                </h2>
+                <div id="collapse-3-1" class="accordion-collapse collapse" aria-labelledby="heading-3-1"
+                  data-bs-parent="#accordion-3">
+                  <div class="accordion-body"> 
+                      {% if prediction.winner == 1 %}
+                       <p>Prediction: {{prediction.fight.fighter1}} </p>
+                      {% elif prediction.winner == 2 %}
+                        <p>Prediction: {{prediction.fight.fighter2}}</p>
+                      {% endif %}
+                    <span class="badge bg-secondary">Incoming</span>
+
+                  </div>
+                </div>
+              </div>      
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}

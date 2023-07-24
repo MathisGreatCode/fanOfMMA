@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="py-15 py-xl-20">
+    <div class="container mt-5 mt-xl-10">
+      <div class="row justify-content-center mb-5 mb-xl-10">
+        <div class="col-lg-8 text-center">
+          <h1 class="fw-light mb-3"> Explore the profiles of fellow MMA fans</h1>
+        </div>
+      </div>
+
+    {% for profile in profiles %}
+      <div class="row g-1" id="grid1" data-isotope>
+        <div class="col-12 filter-design">
+          <a href="{% url 'profile' profile.user_id %}" class="card bg-white card-hover-border">
+            <div class="card-body">
+              <div class="row align-items-center g-2 g-md-4 text-center text-md-start">
+                <div class="col-md-2 col-lg-3">
+                  <img src="./assets/images/logo/logo-1.svg" alt="Logo" class="logo">
+                </div>
+                <div class="col-md-6">
+                  <p class="fs-lg mb-0">{{profile.user}}</p>
+                  <ul class="list-inline list-inline-separated text-muted">
+                    <li class="list-inline-item">last update: {{profile.last_update}}</li>
+                    
+                  </ul>
+                </div>
+                <div class="col-md-3 text-lg-end">
+                  <span>favorite fighter: {{profile.fav_fighter}}</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+    {% endfor %}
+
+    </div>
+</section>
+
+{% endblock %}
